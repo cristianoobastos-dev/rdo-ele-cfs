@@ -31,6 +31,7 @@ button:hover {opacity:0.9;}
 .btn-azul {background:#0077ed; color:white; width:auto; padding:10px 14px; margin:5px 5px 5px 0; font-size:14px;}
 .btn-laranja {background:#ff9800; color:white; width:auto; padding:10px 14px; margin:5px 0; font-size:14px;}
 .btn-whatsapp {background:#25D366; color:white; margin-top:15px;}
+.previa-mensagem {background:#f0f6fc; border:2px solid #0055b8; padding:15px; border-radius:8px; margin-top:20px; white-space:pre-wrap; font-size:14px; line-height:1.6; display:none;}
 .sucesso-planilha {background:#e8f5e9; border-left:4px solid #2e7d32; padding:12px; margin-top:15px; border-radius:0 8px 8px 0; font-size:14px; color:#1b5e20; display:none;}
 .rodape {text-align:center; padding:15px; margin-top:20px; font-size:13px; color:#666; border-top:1px solid #ddd;}
 </style>
@@ -45,7 +46,7 @@ button:hover {opacity:0.9;}
 <h1>Registro de Atividades — RDO Elétrica</h1>
 
 <div class="aviso">
-  Preencha → Salvar na Planilha → Enviar para o Grupo do WhatsApp
+  Preencha os dados abaixo. A prévia da mensagem aparecerá antes de enviar.
 </div>
 
 <div class="card">
@@ -89,30 +90,41 @@ button:hover {opacity:0.9;}
   
   <div class="nomes" id="listaNomes"></div>
 
-  <button class="btn-verde" onclick="salvarNaPlanilha()" style="margin-top:20px;">💾 SALVAR NA PLANILHA</button>
+  <button class="btn-verde" onclick="montarPrevia()" style="margin-top:20px;">VISUALIZAR MENSAGEM</button>
 
-  <div id="sucessoPlanilha" class="sucesso-planilha">
-    ✅ Salvo com sucesso! Agora envie para o grupo
+  <div id="previaArea" class="previa-mensagem">
+    <strong>Mensagem que será enviada:</strong>
+
+----------------------------------------
+<span id="textoPrevia"></span>
+----------------------------------------
   </div>
 
-  <button class="btn-whatsapp" id="btnWhatsApp" style="display:none;" onclick="enviarWhatsApp()">📤 ENVIAR PARA O GRUPO</button>
+  <button class="btn-verde" id="btnSalvar" style="display:none; background:#2e7d32;" onclick="salvarNaPlanilha()">SALVAR NA PLANILHA</button>
 
-  <button class="btn-verde" style="background:#ff9800; margin-top:15px; display:none;" id="btnNovo" onclick="novoLancamento()">📝 NOVO REGISTRO</button>
+  <div id="sucessoPlanilha" class="sucesso-planilha">
+    Salvo com sucesso! Agora envie para o grupo
+  </div>
+
+  <button class="btn-whatsapp" id="btnWhatsApp" style="display:none;" onclick="enviarParaGrupo()">ENVIAR PARA O GRUPO</button>
+
+  <button class="btn-verde" style="background:#ff9800; margin-top:15px; display:none;" id="btnNovo" onclick="novoLancamento()">NOVO REGISTRO</button>
 </div>
 
 <div class="rodape">
   Força Sul Consórcio — Registro Diário de Operação<br>
-  <span style="font-size:11px; color:#999;">v1.0</span>
+  <span style="font-size:11px; color:#999;">v1.2</span>
 </div>
 
 <script>
 // ✅ SEU LINK DO APPS SCRIPT
 const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbxBy6gpIRkwT0XlgD3KZa9Tw7vZ3tDEi-yEu54l-Nu2P8L6Cs3aKZgOFsyVKF-QYLXurA/exec";
 
-// ✅ NÚMERO DO GRUPO (com DDD, sem espaços e sem símbolos)
-const NUMERO_GRUPO = "5527992873818";
+// ✅ LINK DO GRUPO DO WHATSAPP
+const LINK_GRUPO = "https://chat.whatsapp.com/E0NTlX2jqwa6BAOnYFiWFi";
 
 let mensagemPronta = "";
+let dadosParaSalvar = null;
 
 let colaboradores = [
   "Arlan", "Chrystian", "Cleber", "Cristiano", "Elias", "Herberson",
@@ -147,7 +159,7 @@ function adicionarColaborador() {
   colaboradores.push(nome);
   carregarListaNomes();
   input.value = '';
-  alert(`${nome} adicionado!`);
+  alert(nome + ' adicionado!');
 }
 
 function marcarTudo(){
@@ -162,7 +174,7 @@ function formatarData(dataISO){
   return String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + d.getFullYear();
 }
 
-function montarMensagem(){
+function montarMensagemTexto(){
   const quem = document.getElementById('quemEnvia').value.trim();
   const desc = document.getElementById('desc').value.trim();
   const local = document.getElementById('local').value.trim();
@@ -191,64 +203,73 @@ function montarMensagem(){
     textoApoio = 'Apoio da Civil' + (nomeCiv ? ': ' + nomeCiv : '');
   }
 
-  mensagemPronta = `📋 *REGISTRO DE ATIVIDADE - ELÉTRICA*
+  mensagemPronta = `REGISTRO DE ATIVIDADE - ELÉTRICA
 
-👤 *Enviado por:* ${quem}
+Enviado por: ${quem}
 
-📝 *Descrição:*
+Descrição:
 ${desc}
 
-📍 *Local:* ${local}
-📅 *Data:* ${dataFormatada}
+Local: ${local}
+Data: ${dataFormatada}
 
-🤝 *Apoio:*
+Apoio:
 ${textoApoio}
 
-👥 *Equipe presente:*
+Equipe presente:
 ${participantesEquipe.join('\n')}
 
 ---
 Força Sul Consórcio`;
 
-  return {
-    mensagem: mensagemPronta,
-    dados: {
-      quem: quem,
-      descricao: desc,
-      local: local,
-      data: dataFormatada,
-      apoio: textoApoio,
-      nomeMecanica: nomeMec || '-',
-      nomeCivil: nomeCiv || '-',
-      participantes: participantesEquipe.join(', ')
-    }
+  dadosParaSalvar = {
+    quem: quem,
+    descricao: desc,
+    local: local,
+    data: dataFormatada,
+    apoio: textoApoio,
+    nomeMecanica: nomeMec || '-',
+    nomeCivil: nomeCiv || '-',
+    participantes: participantesEquipe.join(', ')
   };
+
+  return mensagemPronta;
+}
+
+function montarPrevia(){
+  const mensagem = montarMensagemTexto();
+  if (!mensagem) return;
+
+  document.getElementById('textoPrevia').innerText = mensagem;
+  document.getElementById('previaArea').style.display = 'block';
+  document.getElementById('btnSalvar').style.display = 'block';
+  document.getElementById('previaArea').scrollIntoView({behavior:'smooth'});
 }
 
 async function salvarNaPlanilha(){
-  const dados = montarMensagem();
-  if (!dados) return;
+  if (!dadosParaSalvar) return;
 
   try {
     await fetch(URL_APPS_SCRIPT, {
       method: 'POST',
       mode: 'no-cors',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(dados.dados)
+      body: JSON.stringify(dadosParaSalvar)
     });
     
     document.getElementById('sucessoPlanilha').style.display = 'block';
     document.getElementById('btnWhatsApp').style.display = 'block';
     document.getElementById('btnNovo').style.display = 'block';
+    document.getElementById('btnSalvar').style.display = 'none';
     
   } catch (erro) {
     alert('Erro ao salvar: ' + erro.message);
   }
 }
 
-function enviarWhatsApp(){
-  const url = `https://wa.me/${NUMERO_GRUPO}?text=${encodeURIComponent(mensagemPronta)}`;
-  window.open(url, '_blank');
+function enviarParaGrupo(){
+  // Abre o link do grupo — dentro do WhatsApp o usuário cola a mensagem
+  window.open(LINK_GRUPO, '_blank');
 }
 
 function novoLancamento(){
@@ -263,10 +284,13 @@ function novoLancamento(){
   document.getElementById('nomeMecanicaArea').style.display = 'none';
   document.getElementById('nomeCivilArea').style.display = 'none';
   document.querySelectorAll('.chk-equipe').forEach(c => c.checked = false);
+  document.getElementById('previaArea').style.display = 'none';
   document.getElementById('sucessoPlanilha').style.display = 'none';
+  document.getElementById('btnSalvar').style.display = 'none';
   document.getElementById('btnWhatsApp').style.display = 'none';
   document.getElementById('btnNovo').style.display = 'none';
   mensagemPronta = "";
+  dadosParaSalvar = null;
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
