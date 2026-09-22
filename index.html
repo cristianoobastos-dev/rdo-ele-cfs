@@ -8,10 +8,6 @@
 * {margin:0; padding:0; box-sizing:border-box; font-family:sans-serif;}
 body {background:#eaf2fa; padding:15px; max-width:520px; margin:0 auto; padding-bottom:60px;}
 
-.logo-container {text-align:center; margin-bottom:15px; padding:15px 10px; background:white; border-radius:12px; box-shadow:0 2px 8px rgba(0,85,184,0.1); min-height:120px; display:flex; align-items:center; justify-content:center;}
-.logo-img {max-width:220px; width:100%; height:auto;}
-.logo-texto {font-size:22px; font-weight:bold; color:#0055b8;}
-
 h1 {color:#0055b8; text-align:center; margin-bottom:15px; font-size:20px;}
 .aviso {background:#e6f0fa; border-left:4px solid #0055b8; padding:12px; margin-bottom:15px; border-radius:0 8px 8px 0; font-size:14px; color:#004494;}
 .card {background:white; border-radius:12px; padding:20px; margin-bottom:20px; box-shadow:0 2px 10px rgba(0,85,184,0.1);}
@@ -22,31 +18,23 @@ textarea {min-height:90px; resize:vertical;}
 .nomes {display:flex; flex-wrap:wrap; gap:8px; margin:10px 0;}
 .nome-item {background:#e6f0fa; padding:10px 14px; border-radius:20px; display:flex; align-items:center; gap:8px; font-size:15px; color:#0055b8; border:1px solid #b3d1f0;}
 .apoio-area {background:#f0f6fc; border:2px solid #b3d1f0; padding:15px; border-radius:8px; margin:15px 0;}
-.apoio-opcao {display:flex; align-items:center; gap:10px; margin:10px 0; font-size:15px; justify-content:flex-start; text-align:left;}
-.apoio-opcao input[type="checkbox"] {width:auto; margin:0; flex-shrink:0;}
+.apoio-opcao {display:flex; align-items:center; gap:10px; margin:10px 0; font-size:15px;}
 .apoio-nome {margin:10px 0 0 28px;}
-button {padding:14px; border:none; border-radius:8px; font-size:17px; font-weight:bold; cursor:pointer; margin-top:10px; transition:opacity 0.2s; width:100%;}
-button:hover {opacity:0.9;}
+button {padding:14px; border:none; border-radius:8px; font-size:17px; font-weight:bold; cursor:pointer; margin-top:10px; width:100%;}
 .btn-principal {background:#0055b8; color:white;}
-.btn-azul {background:#0077ed; color:white; width:auto; padding:10px 14px; margin:5px 5px 5px 0; font-size:14px;}
-.btn-laranja {background:#ff9800; color:white; width:auto; padding:10px 14px; margin:5px 0; font-size:14px;}
-.btn-whatsapp {background:#25D366; color:white; margin-top:15px;}
-.previa-mensagem {background:#f0f6fc; border:2px solid #0055b8; padding:15px; border-radius:8px; margin-top:20px; white-space:pre-wrap; font-size:14px; line-height:1.6; display:none;}
-.sucesso-planilha {background:#e8f5e9; border-left:4px solid #2e7d32; padding:12px; margin-top:15px; border-radius:0 8px 8px 0; font-size:14px; color:#1b5e20; display:none;}
+.btn-azul {background:#0077ed; color:white; padding:10px 14px; margin:5px 5px 5px 0; font-size:14px; width:auto;}
+.btn-laranja {background:#ff9800; color:white; padding:10px 14px; margin:5px 0; font-size:14px; width:auto;}
+.btn-whatsapp {background:#25D366; color:white; margin-top:15px; display:none;}
+.previa {background:#f0f6fc; border:1px solid #b3d1f0; padding:15px; border-radius:8px; margin-top:20px; white-space:pre-wrap; font-size:14px; line-height:1.6; display:none;}
 .rodape {text-align:center; padding:15px; margin-top:20px; font-size:13px; color:#666; border-top:1px solid #ddd;}
 </style>
 </head>
 <body>
 
-<div class="logo-container">
-  <img src="logo-forca-sul.jpg" alt="Força Sul Consórcio" class="logo-img" id="minhaLogo">
-  <div id="textoFallback" class="logo-texto" style="display:none;">FORÇA SUL<br>Consórcio</div>
-</div>
-
 <h1>Registro de Atividades — RDO Elétrica</h1>
 
 <div class="aviso">
-  Preencha os dados → Montar e Salvar → Enviar para o Grupo
+  Preencha os dados e clique em Montar e Salvar
 </div>
 
 <div class="card">
@@ -65,17 +53,17 @@ button:hover {opacity:0.9;}
   <label>5. Apoio de Outras Áreas</label>
   <div class="apoio-area">
     <label class="apoio-opcao">
-      <input type="checkbox" id="apoioMecanica" onchange="mostrarCamposApoio()"> Apoio da Mecânica
+      <input type="checkbox" id="apoioMecanica" onchange="mostrarApoio()"> Apoio da Mecânica
     </label>
-    <div id="nomeMecanicaArea" class="apoio-nome" style="display:none;">
-      <input type="text" id="nomeMecanica" placeholder="Nome da pessoa da Mecânica">
+    <div id="nomeMecArea" class="apoio-nome" style="display:none;">
+      <input type="text" id="nomeMec" placeholder="Nome da pessoa">
     </div>
 
     <label class="apoio-opcao">
-      <input type="checkbox" id="apoioCivil" onchange="mostrarCamposApoio()"> Apoio da Civil
+      <input type="checkbox" id="apoioCivil" onchange="mostrarApoio()"> Apoio da Civil
     </label>
-    <div id="nomeCivilArea" class="apoio-nome" style="display:none;">
-      <input type="text" id="nomeCivil" placeholder="Nome da pessoa da Civil">
+    <div id="nomeCivArea" class="apoio-nome" style="display:none;">
+      <input type="text" id="nomeCiv" placeholder="Nome da pessoa">
     </div>
   </div>
 
@@ -83,123 +71,92 @@ button:hover {opacity:0.9;}
   <button type="button" class="btn-azul" onclick="marcarTudo()">Marcar Todos</button>
   <button type="button" class="btn-azul" onclick="desmarcarTudo()">Desmarcar Todos</button>
   
-  <div style="margin:10px 0;">
-    <input type="text" id="novoColaborador" placeholder="Adicionar nome..." style="width:calc(100% - 130px);">
-    <button type="button" class="btn-laranja" onclick="adicionarColaborador()" style="width:120px; margin-left:5px;">Adicionar</button>
-  </div>
-  
   <div class="nomes" id="listaNomes"></div>
 
-  <button class="btn-principal" onclick="montarESalvar()" style="margin-top:20px;">MONTAR E SALVAR</button>
+  <button class="btn-principal" onclick="montarESalvar()">MONTAR E SALVAR</button>
 
-  <div id="previaArea" class="previa-mensagem">
-    Mensagem pronta:
+  <div id="previaMsg" class="previa">
+    <strong>Mensagem:</strong>
 ----------------------------------------
-<span id="textoPrevia"></span>
-----------------------------------------
+<span id="textoMsg"></span>
   </div>
 
-  <div id="sucessoPlanilha" class="sucesso-planilha">
-    Salvo com sucesso! Clique abaixo para enviar:
-  </div>
-
-  <button class="btn-whatsapp" id="btnWhatsApp" style="display:none;" onclick="enviarParaGrupo()">ENVIAR PARA O GRUPO</button>
-
-  <button class="btn-principal" style="background:#ff9800; margin-top:15px; display:none;" id="btnNovo" onclick="novoLancamento()">NOVO REGISTRO</button>
+  <button class="btn-whatsapp" id="btnWpp" onclick="enviarWpp()">ENVIAR PARA O GRUPO</button>
 </div>
 
 <div class="rodape">
-  Força Sul Consórcio — Registro Diário de Operação<br>
-  <span style="font-size:11px; color:#999;">v1.3</span>
+  Força Sul Consórcio — Registro Diário de Operação
 </div>
 
 <script>
-// ✅ SEU LINK DO APPS SCRIPT
 const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbxBy6gpIRkwT0XlgD3KZa9Tw7vZ3tDEi-yEu54l-Nu2P8L6Cs3aKZgOFsyVKF-QYLXurA/exec";
-
-// ✅ LINK DO GRUPO DO WHATSAPP
 const LINK_GRUPO = "https://chat.whatsapp.com/E0NTlX2jqwa6BAOnYFiWFi";
 
-let mensagemPronta = "";
+let mensagemFinal = "";
 
-let colaboradores = [
+const nomesEquipe = [
   "Arlan", "Chrystian", "Cleber", "Cristiano", "Elias", "Herberson",
   "Jackson", "Jaudecy", "Juracy", "Lázaro", "Maicon", "Marcelo",
   "Matheus", "Rafael", "Rildo", "Steve"
 ];
 
-function mostrarCamposApoio() {
-  document.getElementById('nomeMecanicaArea').style.display = 
+function mostrarApoio() {
+  document.getElementById('nomeMecArea').style.display = 
     document.getElementById('apoioMecanica').checked ? 'block' : 'none';
-  document.getElementById('nomeCivilArea').style.display = 
+  document.getElementById('nomeCivArea').style.display = 
     document.getElementById('apoioCivil').checked ? 'block' : 'none';
 }
 
-function carregarListaNomes() {
+function carregarNomes() {
   const lista = document.getElementById('listaNomes');
   lista.innerHTML = '';
-  colaboradores.sort((a, b) => a.localeCompare(b, 'pt-BR'));
-  colaboradores.forEach(nome => {
+  nomesEquipe.sort((a,b)=>a.localeCompare(b,'pt-BR'));
+  nomesEquipe.forEach(nome => {
     const label = document.createElement('label');
     label.className = 'nome-item';
-    label.innerHTML = `<input type="checkbox" class="chk-equipe" value="${nome}"> ${nome}`;
+    label.innerHTML = `<input type="checkbox" class="chk" value="${nome}"> ${nome}`;
     lista.appendChild(label);
   });
 }
 
-function adicionarColaborador() {
-  const input = document.getElementById('novoColaborador');
-  const nome = input.value.trim();
-  if (!nome) { alert('Digite um nome!'); return; }
-  if (colaboradores.includes(nome)) { alert('Nome já está na lista!'); input.value=''; return; }
-  colaboradores.push(nome);
-  carregarListaNomes();
-  input.value = '';
-  alert(nome + ' adicionado!');
-}
-
-function marcarTudo(){
-  document.querySelectorAll('.chk-equipe').forEach(c => c.checked = true);
-}
-function desmarcarTudo(){
-  document.querySelectorAll('.chk-equipe').forEach(c => c.checked = false);
-}
+function marcarTudo(){ document.querySelectorAll('.chk').forEach(c=>c.checked=true); }
+function desmarcarTudo(){ document.querySelectorAll('.chk').forEach(c=>c.checked=false); }
 
 function formatarData(dataISO){
   const d = new Date(dataISO + 'T00:00:00');
   return String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + d.getFullYear();
 }
 
-function montarMensagemTexto(){
+async function montarESalvar(){
   const quem = document.getElementById('quemEnvia').value.trim();
   const desc = document.getElementById('desc').value.trim();
   const local = document.getElementById('local').value.trim();
   const data = document.getElementById('data').value;
-  const apoioMec = document.getElementById('apoioMecanica').checked;
-  const apoioCiv = document.getElementById('apoioCivil').checked;
-  const nomeMec = document.getElementById('nomeMecanica').value.trim();
-  const nomeCiv = document.getElementById('nomeCivil').value.trim();
-  const participantesEquipe = Array.from(document.querySelectorAll('.chk-equipe:checked')).map(c => c.value);
+  const mec = document.getElementById('apoioMecanica').checked;
+  const civ = document.getElementById('apoioCivil').checked;
+  const nomeMec = document.getElementById('nomeMec').value.trim();
+  const nomeCiv = document.getElementById('nomeCiv').value.trim();
+  const participantes = Array.from(document.querySelectorAll('.chk:checked')).map(c=>c.value);
 
-  if(!quem){ alert('Digite seu nome!'); return null; }
-  if(!desc){ alert('Descreva a atividade!'); return null; }
-  if(!local){ alert('Digite o local!'); return null; }
-  if(!data){ alert('Selecione a data!'); return null; }
-  if(participantesEquipe.length === 0){ alert('Selecione pelo menos um participante!'); return null; }
+  if(!quem){ alert('Digite seu nome!'); return; }
+  if(!desc){ alert('Descreva a atividade!'); return; }
+  if(!local){ alert('Digite o local!'); return; }
+  if(!data){ alert('Selecione a data!'); return; }
+  if(participantes.length === 0){ alert('Selecione pelo menos um participante!'); return; }
 
-  const dataFormatada = formatarData(data);
+  const dt = formatarData(data);
   
   let textoApoio = 'Não houve apoio de outras áreas';
-  if (apoioMec && apoioCiv) {
+  if (mec && civ) {
     textoApoio = 'Apoio da Mecânica' + (nomeMec ? ': ' + nomeMec : '') + 
                  ' e da Civil' + (nomeCiv ? ': ' + nomeCiv : '');
-  } else if (apoioMec) {
+  } else if (mec) {
     textoApoio = 'Apoio da Mecânica' + (nomeMec ? ': ' + nomeMec : '');
-  } else if (apoioCiv) {
+  } else if (civ) {
     textoApoio = 'Apoio da Civil' + (nomeCiv ? ': ' + nomeCiv : '');
   }
 
-  mensagemPronta = `REGISTRO DE ATIVIDADE - ELÉTRICA
+  mensagemFinal = `REGISTRO DE ATIVIDADE - ELÉTRICA
 
 Enviado por: ${quem}
 
@@ -207,87 +164,52 @@ Descrição:
 ${desc}
 
 Local: ${local}
-Data: ${dataFormatada}
+Data: ${dt}
 
 Apoio:
 ${textoApoio}
 
 Equipe presente:
-${participantesEquipe.join('\n')}
+${participantes.join('\n')}
 
 ---
 Força Sul Consórcio`;
 
-  return {
-    mensagem: mensagemPronta,
-    dados: {
-      quem: quem,
-      descricao: desc,
-      local: local,
-      data: dataFormatada,
-      apoio: textoApoio,
-      nomeMecanica: nomeMec || '-',
-      nomeCivil: nomeCiv || '-',
-      participantes: participantesEquipe.join(', ')
-    }
-  };
-}
-
-async function montarESalvar(){
-  const tudo = montarMensagemTexto();
-  if (!tudo) return;
-
-  // Mostra a prévia
-  document.getElementById('textoPrevia').innerText = tudo.mensagem;
-  document.getElementById('previaArea').style.display = 'block';
-  document.getElementById('previaArea').scrollIntoView({behavior:'smooth'});
+  // Mostra prévia
+  document.getElementById('textoMsg').innerText = mensagemFinal;
+  document.getElementById('previaMsg').style.display = 'block';
 
   // Salva na planilha
+  const dados = {
+    quem: quem,
+    descricao: desc,
+    local: local,
+    data: dt,
+    apoio: textoApoio,
+    nomeMecanica: nomeMec || '-',
+    nomeCivil: nomeCiv || '-',
+    participantes: participantes.join(', ')
+  };
+
   try {
     await fetch(URL_APPS_SCRIPT, {
       method: 'POST',
       mode: 'no-cors',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(tudo.dados)
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(dados)
     });
-    
-    document.getElementById('sucessoPlanilha').style.display = 'block';
-    document.getElementById('btnWhatsApp').style.display = 'block';
-    document.getElementById('btnNovo').style.display = 'block';
-    
-  } catch (erro) {
-    alert('Erro: ' + erro.message);
+    document.getElementById('btnWpp').style.display = 'block';
+  } catch (e) {
+    alert('Erro: ' + e.message);
   }
 }
 
-function enviarParaGrupo(){
-  // Abre o grupo + mensagem já pronta
-  const url = `${LINK_GRUPO}?text=${encodeURIComponent(mensagemPronta)}`;
-  window.open(url, '_blank');
-}
-
-function novoLancamento(){
-  document.getElementById('quemEnvia').value = '';
-  document.getElementById('desc').value = '';
-  document.getElementById('local').value = '';
-  document.getElementById('data').value = '';
-  document.getElementById('apoioMecanica').checked = false;
-  document.getElementById('apoioCivil').checked = false;
-  document.getElementById('nomeMecanica').value = '';
-  document.getElementById('nomeCivil').value = '';
-  document.getElementById('nomeMecanicaArea').style.display = 'none';
-  document.getElementById('nomeCivilArea').style.display = 'none';
-  document.querySelectorAll('.chk-equipe').forEach(c => c.checked = false);
-  document.getElementById('previaArea').style.display = 'none';
-  document.getElementById('sucessoPlanilha').style.display = 'none';
-  document.getElementById('btnWhatsApp').style.display = 'none';
-  document.getElementById('btnNovo').style.display = 'none';
-  mensagemPronta = "";
-  window.scrollTo({top:0, behavior:'smooth'});
+function enviarWpp(){
+  window.open(`${LINK_GRUPO}?text=${encodeURIComponent(mensagemFinal)}`, '_blank');
 }
 
 document.getElementById('data').valueAsDate = new Date();
-carregarListaNomes();
+carregarNomes();
 </script>
 
 </body>
