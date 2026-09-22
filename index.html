@@ -82,14 +82,14 @@ Preencha e envie para o Grupo RDO Elétrica CFS. O histórico fica salvo automat
       <input type="checkbox" id="apoioMecanica" onchange="mostrarCamposApoio()"> Apoio da Mecânica
     </label>
     <div id="nomeMecanicaArea" class="apoio-nome" style="display:none;">
-      <input type="text" id="nomeMecanica" placeholder="Digite o nome da pessoa da Mecânica">
+      <input type="text" id="nomeMecanica" placeholder="Nome da pessoa da Mecânica">
     </div>
 
     <label class="apoio-opcao">
       <input type="checkbox" id="apoioCivil" onchange="mostrarCamposApoio()"> Apoio da Civil
     </label>
     <div id="nomeCivilArea" class="apoio-nome" style="display:none;">
-      <input type="text" id="nomeCivil" placeholder="Digite o nome da pessoa da Civil">
+      <input type="text" id="nomeCivil" placeholder="Nome da pessoa da Civil">
     </div>
   </div>
 
@@ -99,7 +99,7 @@ Preencha e envie para o Grupo RDO Elétrica CFS. O histórico fica salvo automat
   
   <div class="adicionar-area">
     <label style="margin-top:0;">Adicionar novo colaborador da equipe:</label>
-    <input type="text" id="novoColaborador" placeholder="Nome do colaborador">
+    <input type="text" id="novoColaborador" placeholder="Digite o nome">
     <button class="btn-laranja" onclick="adicionarColaborador()">Adicionar à Lista</button>
   </div>
   
@@ -133,27 +133,12 @@ Preencha e envie para o Grupo RDO Elétrica CFS. O histórico fica salvo automat
 <script>
 const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbw3V_zuEdWCjJ8yalzQU-brPoeo2Qe_j9DQrXY4klM6mfRUWAQri89hLdtJ-iSt408RsQ/exec";
 
-// Lista base de colaboradores da equipe
 let colaboradores = [
-  "Arlan",
-  "Chrystian",
-  "Cleber",
-  "Cristiano",
-  "Elias",
-  "Herberson",
-  "Jackson",
-  "Jaudecy",
-  "Juracy",
-  "Lázaro",
-  "Maicon",
-  "Marcelo",
-  "Matheus",
-  "Rafael",
-  "Rildo",
-  "Steve"
+  "Arlan", "Chrystian", "Cleber", "Cristiano", "Elias", "Herberson",
+  "Jackson", "Jaudecy", "Juracy", "Lázaro", "Maicon", "Marcelo",
+  "Matheus", "Rafael", "Rildo", "Steve"
 ];
 
-// Mostra/esconde campo de nome do apoio
 function mostrarCamposApoio() {
   document.getElementById('nomeMecanicaArea').style.display = 
     document.getElementById('apoioMecanica').checked ? 'block' : 'none';
@@ -161,13 +146,10 @@ function mostrarCamposApoio() {
     document.getElementById('apoioCivil').checked ? 'block' : 'none';
 }
 
-// Carrega lista da equipe em ordem alfabética
 function carregarListaNomes() {
   const lista = document.getElementById('listaNomes');
   lista.innerHTML = '';
-  
   colaboradores.sort((a, b) => a.localeCompare(b, 'pt-BR'));
-  
   colaboradores.forEach(nome => {
     const label = document.createElement('label');
     label.className = 'nome-item';
@@ -176,26 +158,15 @@ function carregarListaNomes() {
   });
 }
 
-// Adiciona novo colaborador da equipe
 function adicionarColaborador() {
   const input = document.getElementById('novoColaborador');
   const nome = input.value.trim();
-  
-  if (!nome) {
-    alert('Digite um nome!');
-    return;
-  }
-  
-  if (colaboradores.includes(nome)) {
-    alert('Esse nome já está na lista!');
-    input.value = '';
-    return;
-  }
-  
+  if (!nome) { alert('Digite um nome!'); return; }
+  if (colaboradores.includes(nome)) { alert('Nome já está na lista!'); input.value=''; return; }
   colaboradores.push(nome);
   carregarListaNomes();
   input.value = '';
-  alert(`${nome} adicionado à equipe! ✅`);
+  alert(`${nome} adicionado!`);
 }
 
 document.getElementById('data').valueAsDate = new Date();
@@ -209,11 +180,8 @@ function desmarcarTudo(){
 }
 
 function formatarData(dataISO){
-  const data = new Date(dataISO + 'T00:00:00');
-  const dia = String(data.getDate()).padStart(2, '0');
-  const mes = String(data.getMonth() + 1).padStart(2, '0');
-  const ano = data.getFullYear();
-  return `${dia}/${mes}/${ano}`;
+  const d = new Date(dataISO + 'T00:00:00');
+  return String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + d.getFullYear();
 }
 
 async function salvarNaPlanilha(dados){
@@ -235,42 +203,44 @@ async function montar(){
   const desc = document.getElementById('desc').value.trim();
   const local = document.getElementById('local').value.trim();
   const data = document.getElementById('data').value;
-  const apoioMecanica = document.getElementById('apoioMecanica').checked;
-  const apoioCivil = document.getElementById('apoioCivil').checked;
-  const nomeMecanica = document.getElementById('nomeMecanica').value.trim();
-  const nomeCivil = document.getElementById('nomeCivil').value.trim();
+  const apoioMec = document.getElementById('apoioMecanica').checked;
+  const apoioCiv = document.getElementById('apoioCivil').checked;
+  const nomeMec = document.getElementById('nomeMecanica').value.trim();
+  const nomeCiv = document.getElementById('nomeCivil').value.trim();
   const participantesEquipe = Array.from(document.querySelectorAll('.chk-equipe:checked')).map(c => c.value);
 
   if(!quem){ alert('Digite seu nome!'); return; }
   if(!desc){ alert('Descreva a atividade!'); return; }
   if(!local){ alert('Digite o local!'); return; }
   if(!data){ alert('Selecione a data!'); return; }
-  if(participantesEquipe.length === 0){ alert('Selecione pelo menos um participante da equipe!'); return; }
+  if(participantesEquipe.length === 0){ alert('Selecione pelo menos um participante!'); return; }
 
   const dataFormatada = formatarData(data);
   
-  // Monta texto de apoio — NOME DO APOIO FICA SEPARADO
+  // MONTA CAMPO APOIO — SOMENTE NOMES DE APOIO
   let textoApoio = 'Não houve apoio de outras áreas';
-  if (apoioMecanica && apoioCivil) {
-    textoApoio = `Apoio da Mecânica${nomeMecanica ? `: ${nomeMecanica}` : ''} e da Civil${nomeCivil ? `: ${nomeCivil}` : ''}`;
-  } else if (apoioMecanica) {
-    textoApoio = `Apoio da Mecânica${nomeMecanica ? `: ${nomeMecanica}` : ''}`;
-  } else if (apoioCivil) {
-    textoApoio = `Apoio da Civil${nomeCivil ? `: ${nomeCivil}` : ''}`;
+  if (apoioMec && apoioCiv) {
+    textoApoio = 'Apoio da Mecânica' + (nomeMec ? ': ' + nomeMec : '') + 
+                 ' e da Civil' + (nomeCiv ? ': ' + nomeCiv : '');
+  } else if (apoioMec) {
+    textoApoio = 'Apoio da Mecânica' + (nomeMec ? ': ' + nomeMec : '');
+  } else if (apoioCiv) {
+    textoApoio = 'Apoio da Civil' + (nomeCiv ? ': ' + nomeCiv : '');
   }
-  
-  // Dados enviados para planilha — SEPARADOS
+
+  // DADOS SEPARADOS — GARANTIDO
   const dadosParaPlanilha = {
     quem: quem,
     descricao: desc,
     local: local,
     data: dataFormatada,
     apoio: textoApoio,
-    nomeMecanica: nomeMecanica || '-',
-    nomeCivil: nomeCivil || '-',
+    nomeMecanica: nomeMec || '-',
+    nomeCivil: nomeCiv || '-',
     participantes: participantesEquipe.join(', ')
   };
 
+  console.log('Dados enviados:', dadosParaPlanilha); // Para conferir no console
   await salvarNaPlanilha(dadosParaPlanilha);
 
   const mensagem = `REGISTRO DE ATIVIDADE
@@ -306,20 +276,14 @@ function novoLancamento(){
   document.getElementById('apoioCivil').checked = false;
   document.getElementById('nomeMecanica').value = '';
   document.getElementById('nomeCivil').value = '';
-  
-  // Esconde campos de nome do apoio
   document.getElementById('nomeMecanicaArea').style.display = 'none';
   document.getElementById('nomeCivilArea').style.display = 'none';
-  
-  // Desmarca todos da equipe
   document.querySelectorAll('.chk-equipe').forEach(c => c.checked = false);
-  
   document.getElementById('sucessoPlanilha').style.display = 'none';
   document.getElementById('areaMsg').style.display = 'none';
   document.getElementById('avisoGrupo').style.display = 'none';
   document.getElementById('btnEnviar').style.display = 'none';
   document.getElementById('btnNovo').style.display = 'none';
-  
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
 </script>
