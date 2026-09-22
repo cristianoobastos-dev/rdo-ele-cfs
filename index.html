@@ -8,36 +8,35 @@
 * {margin:0; padding:0; box-sizing:border-box; font-family:sans-serif;}
 body {background:#eaf2fa; padding:15px; max-width:520px; margin:0 auto; padding-bottom:60px;}
 
-.logo-container {text-align:center; margin-bottom:15px; padding:15px 10px; background:white; border-radius:12px; box-shadow:0 2px 8px rgba(0,85,184,0.1); min-height:120px; display:flex; align-items:center; justify-content:center;}
+.logo-container {text-align:center; margin-bottom:15px; padding:15px 10px; background:white; border-radius:12px; box-shadow:0 2px 8px rgba(0,85,184,0.1); min-height:180px; display:flex; align-items:center; justify-content:center;}
 .logo-img {max-width:220px; width:100%; height:auto;}
-.logo-texto {font-size:22px; font-weight:bold; color:#0055b8;}
+.logo-texto {font-size:24px; font-weight:bold; color:#0055b8; padding:20px 10px; text-align:center;}
 
-h1 {color:#0055b8; text-align:center; margin-bottom:15px; font-size:20px;}
-.aviso {background:#e6f0fa; border-left:4px solid #0055b8; padding:12px; margin-bottom:15px; border-radius:0 8px 8px 0; font-size:14px; color:#004494;}
-.card {background:white; border-radius:12px; padding:20px; margin-bottom:20px; box-shadow:0 2px 10px rgba(0,85,184,0.1);}
+h1 {color:#0055b8; text-align:center; margin-bottom:15px; font-size:22px; font-weight:bold;}
+.aviso {background:#e6f0fa; border-left:4px solid #0055b8; padding:12px; margin-bottom:15px; border-radius:0 8px 8px 0; font-size:14px; color:#004494; font-weight:500;}
+.card {background:white; border-radius:12px; padding:20px; margin-bottom:20px; box-shadow:0 2px 10px rgba(0,85,184,0.12); border-top:3px solid #0055b8;}
 label {display:block; margin:12px 0 6px; font-weight:bold; color:#0055b8; font-size:15px;}
 input, textarea {width:100%; padding:12px; border:2px solid #b3d1f0; border-radius:8px; font-size:16px; background:#fafcfe;}
 input:focus, textarea:focus {outline:none; border-color:#0055b8; background:white;}
 textarea {min-height:90px; resize:vertical;}
 .nomes {display:flex; flex-wrap:wrap; gap:8px; margin:10px 0;}
 .nome-item {background:#e6f0fa; padding:10px 14px; border-radius:20px; display:flex; align-items:center; gap:8px; font-size:15px; color:#0055b8; border:1px solid #b3d1f0;}
+.adicionar-area {background:#f9fbfe; border:1px dashed #0055b8; padding:15px; border-radius:8px; margin:15px 0;}
 .apoio-area {background:#f0f6fc; border:2px solid #b3d1f0; padding:15px; border-radius:8px; margin:15px 0;}
-.apoio-opcao {display:flex; align-items:center; gap:10px; margin:10px 0; font-size:15px; justify-content:flex-start; text-align:left;}
-.apoio-opcao input[type="checkbox"] {width:auto; margin:0; flex-shrink:0;}
-.apoio-nome {margin:10px 0 0 28px;}
-.foto-preview {margin-top:12px; max-width:100%; border-radius:8px; display:none; border:2px solid #b3d1f0;}
-.foto-container {border:2px dashed #b3d1f0; border-radius:8px; padding:20px; text-align:center; cursor:pointer; margin:10px 0; transition:all 0.2s; background:#fafcfe;}
-.foto-container:hover {border-color:#0055b8; background:#eaf2fa;}
-.foto-icone {font-size:32px; color:#0055b8; margin-bottom:5px;}
-.foto-texto {font-size:14px; color:#0055b8;}
-button {padding:14px; border:none; border-radius:8px; font-size:17px; font-weight:bold; cursor:pointer; margin-top:10px; transition:opacity 0.2s; width:100%;}
-button:hover {opacity:0.9;}
-.btn-verde {background:#0055b8; color:white;}
-.btn-azul {background:#0077ed; color:white; width:auto; padding:10px 14px; margin:5px 5px 5px 0; font-size:14px;}
-.btn-laranja {background:#ff9800; color:white; width:auto; padding:10px 14px; margin:5px 0; font-size:14px;}
-.sucesso-planilha {background:#e8f5e9; border-left:4px solid #2e7d32; padding:12px; margin-top:15px; border-radius:0 8px 8px 0; font-size:14px; color:#1b5e20; display:none;}
-.erro-msg {background:#ffebee; border-left:4px solid #d32f2f; padding:10px; margin-top:10px; border-radius:0 8px 8px 0; font-size:14px; color:#c62828; display:none;}
-.rodape {text-align:center; padding:15px; margin-top:20px; font-size:13px; color:#666; border-top:1px solid #ddd;}
+.apoio-opcao {display:flex; align-items:center; gap:10px; margin:8px 0; font-size:15px; justify-content:flex-start; text-align:left;}
+.apoio-opcao input[type="checkbox"] {width:auto; margin:0;}
+.apoio-nome {margin:8px 0 8px 28px; padding-left:10px;}
+button {padding:14px; border:none; border-radius:8px; font-size:17px; font-weight:bold; cursor:pointer; margin-top:10px; transition:opacity 0.2s;}
+button:hover {opacity:0.92;}
+.btn-verde {background:#0055b8; color:white; width:100%;}
+.btn-whats {background:#25d366; color:white; width:100%; margin-top:10px; box-shadow:0 3px 6px rgba(37,211,102,0.25);}
+.btn-azul {background:#0077ed; color:white; margin:5px 5px 5px 0; width:auto; padding:10px 14px; font-size:14px;}
+.btn-laranja {background:#ff9800; color:white; margin:5px 0; padding:10px 14px; font-size:14px;}
+.texto-envio {background:#f0f6fc; border:2px solid #0055b8; padding:15px; border-radius:8px; margin-top:15px; white-space:pre-wrap; font-size:14px; display:none; color:#003366;}
+.sucesso-planilha {background:#e8f5e9; border-left:4px solid #2e7d32; padding:10px; margin-top:10px; border-radius:0 8px 8px 0; font-size:14px; color:#1b5e20; display:none;}
+.aviso-grupo {background:#fff8e1; border-left:4px solid #ff9800; padding:10px; margin-top:10px; border-radius:0 8px 8px 0; font-size:14px; color:#e65100; display:none;}
+.rodape {text-align:center; padding:15px; margin-top:20px; font-size:13px; color:#666; border-top:1px solid #ddd; position:fixed; bottom:0; left:0; right:0; background:#fff; padding:10px; box-shadow:0 -2px 5px rgba(0,0,0,0.05);}
+.rodape strong {color:#0055b8;}
 </style>
 </head>
 <body>
@@ -47,18 +46,26 @@ button:hover {opacity:0.9;}
   <div id="textoFallback" class="logo-texto" style="display:none;">FORÇA SUL<br>Consórcio</div>
 </div>
 
-<h1>Registro de Atividades — RDO Elétrica</h1>
+<script>
+const img = document.getElementById('minhaLogo');
+img.onerror = function() {
+  this.style.display = 'none';
+  document.getElementById('textoFallback').style.display = 'block';
+};
+</script>
+
+<h1>Registro de Atividades - RDO Elétrica</h1>
 
 <div class="aviso">
-  Preencha os dados abaixo. Foto opcional. Tudo salvo automaticamente.
+Preencha e envie para o Grupo RDO Elétrica CFS. O histórico fica salvo automaticamente.
 </div>
 
 <div class="card">
-  <label>1. Seu Nome *</label>
+  <label>1. Nome de quem está enviando *</label>
   <input type="text" id="quemEnvia" placeholder="Ex: Cristiano, Rildo...">
 
   <label>2. Descrição da Atividade *</label>
-  <textarea id="desc" placeholder="O que foi feito?"></textarea>
+  <textarea id="desc" placeholder="Descreva o que foi realizado..."></textarea>
 
   <label>3. Local *</label>
   <input type="text" id="local" placeholder="Ex: Subestação 2, Painel Principal...">
@@ -84,47 +91,43 @@ button:hover {opacity:0.9;}
   </div>
 
   <label>6. Participantes da Equipe *</label>
-  <button type="button" class="btn-azul" onclick="marcarTudo()">Marcar Todos</button>
-  <button type="button" class="btn-azul" onclick="desmarcarTudo()">Desmarcar Todos</button>
+  <button class="btn-azul" onclick="marcarTudo()">Marcar Todos</button>
+  <button class="btn-azul" onclick="desmarcarTudo()">Desmarcar Todos</button>
   
-  <div style="margin:10px 0;">
-    <input type="text" id="novoColaborador" placeholder="Adicionar nome..." style="width:calc(100% - 130px);">
-    <button type="button" class="btn-laranja" onclick="adicionarColaborador()" style="width:120px; margin-left:5px;">Adicionar</button>
+  <div class="adicionar-area">
+    <label style="margin-top:0;">Adicionar novo colaborador:</label>
+    <input type="text" id="novoColaborador" placeholder="Digite o nome">
+    <button class="btn-laranja" onclick="adicionarColaborador()">Adicionar à Lista</button>
   </div>
   
   <div class="nomes" id="listaNomes"></div>
 
-  <label>7. Foto da Atividade (opcional)</label>
-  <div class="foto-container" onclick="document.getElementById('fotoInput').click()">
-    <div class="foto-icone">📷</div>
-    <p class="foto-texto">Clique para escolher ou tirar foto</p>
-    <p style="font-size:12px; color:#888; margin-top:5px;">Pode ser da galeria ou tirada agora</p>
-    <input type="file" id="fotoInput" accept="image/*" style="display:none;" onchange="processarFoto(this)">
-  </div>
-  <img id="fotoPreview" class="foto-preview" alt="Pré-visualização da foto">
-  <p id="nomeFoto" style="margin-top:8px; font-size:13px; color:#2e7d32; display:none;">✅ Foto pronta para envio</p>
-
-  <button class="btn-verde" onclick="montarESalvar()" style="margin-top:20px;">✅ SALVAR REGISTRO</button>
+  <button class="btn-verde" onclick="montar()">Montar e Salvar</button>
 
   <div id="sucessoPlanilha" class="sucesso-planilha">
-    ✅ Salvo com sucesso! Pode fazer o próximo registro.
+    ✅ Salvo na planilha com sucesso!
   </div>
-  <div id="erroMsg" class="erro-msg"></div>
 
-  <button class="btn-verde" style="background:#ff9800; margin-top:15px; display:none;" id="btnNovo" onclick="novoLancamento()">📝 NOVO REGISTRO</button>
+  <div id="areaMsg" class="texto-envio">
+    <strong>Mensagem pronta:</strong><br><br>
+    <span id="conteudo"></span>
+  </div>
+
+  <div id="avisoGrupo" class="aviso-grupo">
+    Selecione no WhatsApp: RDO ELÉTRICA CFS
+  </div>
+
+  <button id="btnEnviar" class="btn-whats" style="display:none;" onclick="enviar()">Enviar para o Grupo</button>
+  <button id="btnNovo" class="btn-verde" style="display:none; background:#ff9800;" onclick="novoLancamento()">Novo Lançamento</button>
 </div>
 
 <div class="rodape">
-  Força Sul Consórcio — Registro Diário de Operação<br>
-  <span style="font-size:11px; color:#999;">v2.3</span>
+  Desenvolvido por <strong>Cristiano Bastos</strong>
 </div>
 
 <script>
-// ✅ SEU LINK JÁ COLOCADO AQUI!
-const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbxBy6gpIRkwT0XlgD3KZa9Tw7vZ3tDEi-yEu54l-Nu2P8L6Cs3aKZgOFsyVKF-QYLXurA/exec";
-
-let fotoBase64 = null;
-let fotoNome = null;
+// ✅ LINK JÁ INSERIDO
+const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzSRSrHHPEciCGa0cT20wcyAMLhY6HnbZ2YMew__RfdKB7IoTK5EQtqlPElhkZMTzZrYw/exec";
 
 let colaboradores = [
   "Arlan", "Chrystian", "Cleber", "Cristiano", "Elias", "Herberson",
@@ -155,12 +158,15 @@ function adicionarColaborador() {
   const input = document.getElementById('novoColaborador');
   const nome = input.value.trim();
   if (!nome) { alert('Digite um nome!'); return; }
-  if (colaboradores.includes(nome)) { alert('Nome já está na lista!'); input.value=''; return; }
+  if (colaboradores.includes(nome)) { alert('Já existe!'); input.value=''; return; }
   colaboradores.push(nome);
   carregarListaNomes();
   input.value = '';
   alert(`${nome} adicionado!`);
 }
+
+document.getElementById('data').valueAsDate = new Date();
+carregarListaNomes();
 
 function marcarTudo(){
   document.querySelectorAll('.chk-equipe').forEach(c => c.checked = true);
@@ -169,50 +175,26 @@ function desmarcarTudo(){
   document.querySelectorAll('.chk-equipe').forEach(c => c.checked = false);
 }
 
-function processarFoto(input) {
-  const arquivo = input.files[0];
-  if (!arquivo) return;
-  
-  fotoNome = `${new Date().toISOString().slice(0,10).replace(/-/g,'')}_${arquivo.name}`;
-  
-  const leitor = new FileReader();
-  leitor.onload = function(e) {
-    const dadosArquivo = e.target.result;
-    
-    const img = new Image();
-    img.onload = function() {
-      const canvas = document.createElement('canvas');
-      const MAX_LARGURA = 1200;
-      let largura = img.width;
-      let altura = img.height;
-      
-      if (largura > MAX_LARGURA) {
-        altura = altura * MAX_LARGURA / largura;
-        largura = MAX_LARGURA;
-      }
-      
-      canvas.width = largura;
-      canvas.height = altura;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, largura, altura);
-      
-      fotoBase64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
-      
-      document.getElementById('fotoPreview').src = dadosArquivo;
-      document.getElementById('fotoPreview').style.display = 'block';
-      document.getElementById('nomeFoto').style.display = 'block';
-    };
-    img.src = dadosArquivo;
-  };
-  leitor.readAsDataURL(arquivo);
-}
-
 function formatarData(dataISO){
   const d = new Date(dataISO + 'T00:00:00');
   return String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + d.getFullYear();
 }
 
-async function montarESalvar(){
+async function salvarNaPlanilha(dados){
+  try {
+    await fetch(URL_APPS_SCRIPT, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(dados)
+    });
+    document.getElementById('sucessoPlanilha').style.display = 'block';
+  } catch (erro) {
+    alert('Erro: ' + erro.message);
+  }
+}
+
+async function montar(){
   const quem = document.getElementById('quemEnvia').value.trim();
   const desc = document.getElementById('desc').value.trim();
   const local = document.getElementById('local').value.trim();
@@ -249,34 +231,39 @@ async function montarESalvar(){
     apoio: textoApoio,
     nomeMecanica: nomeMec || '-',
     nomeCivil: nomeCiv || '-',
-    participantes: participantesEquipe.join(', '),
-    fotoBase64: fotoBase64 || null,
-    fotoNome: fotoNome || null
+    participantes: participantesEquipe.join(', ')
   };
-  
-  try {
-    await fetch(URL_APPS_SCRIPT, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(dadosParaPlanilha)
-    });
-    
-    document.getElementById('sucessoPlanilha').style.display = 'block';
-    document.getElementById('btnNovo').style.display = 'block';
-    document.getElementById('erroMsg').style.display = 'none';
-    
-  } catch (erro) {
-    document.getElementById('erroMsg').textContent = 'Erro: ' + erro.message;
-    document.getElementById('erroMsg').style.display = 'block';
-  }
+
+  await salvarNaPlanilha(dadosParaPlanilha);
+
+  const mensagem = `REGISTRO DE ATIVIDADE
+Força Sul Consórcio
+Grupo: RDO Elétrica CFS
+
+Enviado por: ${quem}
+Atividade: ${desc}
+Local: ${local}
+Data: ${dataFormatada}
+Apoio: ${textoApoio}
+Participantes: ${participantesEquipe.join(', ')}`;
+
+  document.getElementById('conteudo').innerText = mensagem;
+  document.getElementById('areaMsg').style.display = 'block';
+  document.getElementById('avisoGrupo').style.display = 'block';
+  document.getElementById('btnEnviar').style.display = 'block';
+  document.getElementById('btnNovo').style.display = 'block';
+}
+
+function enviar(){
+  const texto = document.getElementById('conteudo').innerText;
+  window.open(`https://wa.me/?text=${encodeURIComponent(texto)}`, '_blank');
 }
 
 function novoLancamento(){
   document.getElementById('quemEnvia').value = '';
   document.getElementById('desc').value = '';
   document.getElementById('local').value = '';
-  document.getElementById('data').value = '';
+  document.getElementById('data').valueAsDate = new Date();
   document.getElementById('apoioMecanica').checked = false;
   document.getElementById('apoioCivil').checked = false;
   document.getElementById('nomeMecanica').value = '';
@@ -284,19 +271,13 @@ function novoLancamento(){
   document.getElementById('nomeMecanicaArea').style.display = 'none';
   document.getElementById('nomeCivilArea').style.display = 'none';
   document.querySelectorAll('.chk-equipe').forEach(c => c.checked = false);
-  document.getElementById('fotoInput').value = '';
-  document.getElementById('fotoPreview').style.display = 'none';
-  document.getElementById('nomeFoto').style.display = 'none';
-  fotoBase64 = null;
-  fotoNome = null;
   document.getElementById('sucessoPlanilha').style.display = 'none';
-  document.getElementById('erroMsg').style.display = 'none';
+  document.getElementById('areaMsg').style.display = 'none';
+  document.getElementById('avisoGrupo').style.display = 'none';
+  document.getElementById('btnEnviar').style.display = 'none';
   document.getElementById('btnNovo').style.display = 'none';
-  window.scrollTo({top:0, behavior:'smooth'});
+  window.scrollTo({top: 0, behavior: 'smooth'});
 }
-
-document.getElementById('data').valueAsDate = new Date();
-carregarListaNomes();
 </script>
 
 </body>
