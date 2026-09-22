@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro de Atividades - RDO Elétrica CFS</title>
+<style>
+* {margin:0; padding:0; box-sizing:border-box; font-family:sans-serif;}
+body {background:#eaf2fa; padding:15px; max-width:520px; margin:0 auto; padding-bottom:60px;}
+
+.logo-container {text-align:center; margin-bottom:15px; padding:15px 10px; background:white; border-radius:12px; box-shadow:0 2px 8px rgba(0,85,184,0.1); min-height:180px; display:flex; align-items:center; justify-content:center;}
+.logo-img {max-width:220px; width:100%; height:auto;}
+.logo-texto {font-size:24px; font-weight:bold; color:#0055b8; padding:20px 10px; text-align:center;}
+
+h1 {color:#0055b8; text-align:center; margin-bottom:15px; font-size:22px; font-weight:bold;}
+.aviso {background:#e6f0fa; border-left:4px solid #0055b8; padding:12px; margin-bottom:15px; border-radius:0 8px 8px 0; font-size:14px; color:#004494; font-weight:500;}
+.card {background:white; border-radius:12px; padding:20px; margin-bottom:20px; box-shadow:0 2px 10px rgba(0,85,184,0.12); border-top:3px solid #0055b8;}
+label {display:block; margin:12px 0 6px; font-weight:bold; color:#0055b8; font-size:15px;}
+input, textarea {width:100%; padding:12px; border:2px solid #b3d1f0; border-radius:8px; font-size:16px; background:#fafcfe;}
+input:focus, textarea:focus {outline:none; border-color:#0055b8; background:white;}
+textarea {min-height:90px; resize:vertical;}
+.nomes {display:flex; flex-wrap:wrap; gap:8px; margin:10px 0;}
+.nome-item {background:#e6f0fa; padding:10px 14px; border-radius:20px; display:flex; align-items:center; gap:8px; font-size:15px; color:#0055b8; border:1px solid #b3d1f0;}
+.adicionar-area {background:#f9fbfe; border:1px dashed #0055b8; padding:15px; border-radius:8px; margin:15px 0;}
+.apoio-area {background:#f0f6fc; border:2px solid #b3d1f0; padding:15px; border-radius:8px; margin:15px 0;}
+.apoio-opcao {display:flex; align-items:center; gap:10px; margin:8px 0; font-size:15px; justify-content:flex-start; text-align:left;}
+.apoio-opcao input[type="checkbox"] {width:auto; margin:0;}
+.apoio-nome {margin:8px 0 8px 28px; padding-left:10px;}
+button {padding:14px; border:none; border-radius:8px; font-size:17px; font-weight:bold; cursor:pointer; margin-top:10px; transition:opacity 0.2s;}
+button:hover {opacity:0.92;}
+.btn-verde {background:#0055b8; color:white; width:100%;}
+.btn-whats {background:#25d366; color:white; width:100%; margin-top:10px; box-shadow:0 3px 6px rgba(37,211,102,0.25);}
+.btn-azul {background:#0077ed; color:white; margin:5px 5px 5px 0; width:auto; padding:10px 14px; font-size:14px;}
+.btn-laranja {background:#ff9800; color:white; margin:5px 0; padding:10px 14px; font-size:14px;}
+.texto-envio {background:#f0f6fc; border:2px solid #0055b8; padding:15px; border-radius:8px; margin-top:15px; white-space:pre-wrap; font-size:14px; display:none; color:#003366;}
+.sucesso-planilha {background:#e8f5e9; border-left:4px solid #2e7d32; padding:10px; margin-top:10px; border-radius:0 8px 8px 0; font-size:14px; color:#1b5e20; display:none;}
+.aviso-grupo {background:#fff8e1; border-left:4px solid #ff9800; padding:10px; margin-top:10px; border-radius:0 8px 8px 0; font-size:14px; color:#e65100; display:none;}
+.rodape {text-align:center; padding:15px; margin-top:20px; font-size:13px; color:#666; border-top:1px solid #ddd; position:fixed; bottom:0; left:0; right:0; background:#fff; padding:10px; box-shadow:0 -2px 5px rgba(0,0,0,0.05);}
+.rodape strong {color:#0055b8;}
+</style>
+</head>
+<body>
+
+<div class="logo-container">
+  <img src="logo-forca-sul.jpg" alt="Força Sul Consórcio" class="logo-img" id="minhaLogo">
+  <div id="textoFallback" class="logo-texto" style="display:none;">FORÇA SUL<br>Consórcio</div>
+</div>
+
+<script>
+const img = document.getElementById('minhaLogo');
+img.onerror = function() {
+  this.style.display = 'none';
+  document.getElementById('textoFallback').style.display = 'block';
+};
+img.onload = function() {
+  document.getElementById('textoFallback').style.display = 'none';
+};
+</script>
+
+<h1>Registro de Atividades - RDO Elétrica</h1>
+
+<div class="aviso">
+Preencha e envie para o Grupo RDO Elétrica CFS. O histórico fica salvo automaticamente.
+</div>
+
+<div class="card">
+  <label>1. Nome de quem está enviando *</label>
+  <input type="text" id="quemEnvia" placeholder="Ex: Cristiano, Rildo...">
+
+  <label>2. Descrição da Atividade *</label>
+  <textarea id="desc" placeholder="Descreva o que foi realizado..."></textarea>
+
+  <label>3. Local *</label>
+  <input type="text" id="local" placeholder="Ex: Subestação 2, Painel Principal...">
+
+  <label>4. Data *</label>
+  <input type="date" id="data">
+
+  <label>5. Apoio de Outras Áreas</label>
+  <div class="apoio-area">
+    <label class="apoio-opcao">
+      <input type="checkbox" id="apoioMecanica" onchange="mostrarCamposApoio()"> Apoio da Mecânica
+    </label>
+    <div id="nomeMecanicaArea" class="apoio-nome" style="display:none;">
+      <input type="text" id="nomeMecanica" placeholder="Digite o nome da pessoa da Mecânica">
+    </div>
+
+    <label class="apoio-opcao">
+      <input type="checkbox" id="apoioCivil" onchange="mostrarCamposApoio()"> Apoio da Civil
+    </label>
+    <div id="nomeCivilArea" class="apoio-nome" style="display:none;">
+      <input type="text" id="nomeCivil" placeholder="Digite o nome da pessoa da Civil">
+    </div>
+  </div>
+
+  <label>6. Participantes da Equipe *</label>
+  <button class="btn-azul" onclick="marcarTudo()">Marcar Todos</button>
+  <button class="btn-azul" onclick="desmarcarTudo()">Desmarcar Todos</button>
+  
+  <div class="adicionar-area">
+    <label style="margin-top:0;">Adicionar novo colaborador da equipe:</label>
+    <input type="text" id="novoColaborador" placeholder="Nome do colaborador">
+    <button class="btn-laranja" onclick="adicionarColaborador()">Adicionar à Lista</button>
+  </div>
+  
+  <div class="nomes" id="listaNomes">
+    <!-- Nomes da equipe em ordem alfabética -->
+  </div>
+
+  <button class="btn-verde" onclick="montar()">Montar e Salvar</button>
+
+  <div id="sucessoPlanilha" class="sucesso-planilha">
+    Atividade registrada no histórico com sucesso.
+  </div>
+
+  <div id="areaMsg" class="texto-envio">
+    <strong>Mensagem pronta:</strong><br><br>
+    <span id="conteudo"></span>
+  </div>
+
+  <div id="avisoGrupo" class="aviso-grupo">
+    Na tela que abrir, selecione: RDO ELÉTRICA CFS
+  </div>
+
+  <button id="btnEnviar" class="btn-whats" style="display:none;" onclick="enviar()">Enviar para o Grupo</button>
+  <button id="btnNovo" class="btn-verde" style="display:none; background:#ff9800;" onclick="novoLancamento()">Novo Lançamento</button>
+</div>
+
+<div class="rodape">
+  Desenvolvido por <strong>Cristiano Bastos</strong>
+</div>
+
+<script>
+const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbw3V_zuEdWCjJ8yalzQU-brPoeo2Qe_j9DQrXY4klM6mfRUWAQri89hLdtJ-iSt408RsQ/exec";
+
+// Lista base de colaboradores da equipe
+let colaboradores = [
+  "Arlan",
+  "Chrystian",
+  "Cleber",
+  "Cristiano",
+  "Elias",
+  "Herberson",
+  "Jackson",
+  "Jaudecy",
+  "Juracy",
+  "Lázaro",
+  "Maicon",
+  "Marcelo",
+  "Matheus",
+  "Rafael",
+  "Rildo",
+  "Steve"
+];
+
+// Mostra/esconde campo de nome do apoio
+function mostrarCamposApoio() {
+  document.getElementById('nomeMecanicaArea').style.display = 
+    document.getElementById('apoioMecanica').checked ? 'block' : 'none';
+  document.getElementById('nomeCivilArea').style.display = 
+    document.getElementById('apoioCivil').checked ? 'block' : 'none';
+}
+
+// Carrega lista da equipe em ordem alfabética
+function carregarListaNomes() {
+  const lista = document.getElementById('listaNomes');
+  lista.innerHTML = '';
+  
+  colaboradores.sort((a, b) => a.localeCompare(b, 'pt-BR'));
+  
+  colaboradores.forEach(nome => {
+    const label = document.createElement('label');
+    label.className = 'nome-item';
+    label.innerHTML = `<input type="checkbox" class="chk-equipe" value="${nome}"> ${nome}`;
+    lista.appendChild(label);
+  });
+}
+
+// Adiciona novo colaborador da equipe
+function adicionarColaborador() {
+  const input = document.getElementById('novoColaborador');
+  const nome = input.value.trim();
+  
+  if (!nome) {
+    alert('Digite um nome!');
+    return;
+  }
+  
+  if (colaboradores.includes(nome)) {
+    alert('Esse nome já está na lista!');
+    input.value = '';
+    return;
+  }
+  
+  colaboradores.push(nome);
+  carregarListaNomes();
+  input.value = '';
+  alert(`${nome} adicionado à equipe! ✅`);
+}
+
+document.getElementById('data').valueAsDate = new Date();
+carregarListaNomes();
+
+function marcarTudo(){
+  document.querySelectorAll('.chk-equipe').forEach(c => c.checked = true);
+}
+function desmarcarTudo(){
+  document.querySelectorAll('.chk-equipe').forEach(c => c.checked = false);
+}
+
+function formatarData(dataISO){
+  const data = new Date(dataISO + 'T00:00:00');
+  const dia = String(data.getDate()).padStart(2, '0');
+  const mes = String(data.getMonth() + 1).padStart(2, '0');
+  const ano = data.getFullYear();
+  return `${dia}/${mes}/${ano}`;
+}
+
+async function salvarNaPlanilha(dados){
+  try {
+    await fetch(URL_APPS_SCRIPT, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(dados)
+    });
+    document.getElementById('sucessoPlanilha').style.display = 'block';
+  } catch (erro) {
+    console.log('Erro ao salvar:', erro);
+  }
+}
+
+async function montar(){
+  const quem = document.getElementById('quemEnvia').value.trim();
+  const desc = document.getElementById('desc').value.trim();
+  const local = document.getElementById('local').value.trim();
+  const data = document.getElementById('data').value;
+  const apoioMecanica = document.getElementById('apoioMecanica').checked;
+  const apoioCivil = document.getElementById('apoioCivil').checked;
+  const nomeMecanica = document.getElementById('nomeMecanica').value.trim();
+  const nomeCivil = document.getElementById('nomeCivil').value.trim();
+  const participantesEquipe = Array.from(document.querySelectorAll('.chk-equipe:checked')).map(c => c.value);
+
+  if(!quem){ alert('Digite seu nome!'); return; }
+  if(!desc){ alert('Descreva a atividade!'); return; }
+  if(!local){ alert('Digite o local!'); return; }
+  if(!data){ alert('Selecione a data!'); return; }
+  if(participantesEquipe.length === 0){ alert('Selecione pelo menos um participante da equipe!'); return; }
+
+  const dataFormatada = formatarData(data);
+  
+  // Monta texto de apoio — NOME DO APOIO FICA SEPARADO
+  let textoApoio = 'Não houve apoio de outras áreas';
+  if (apoioMecanica && apoioCivil) {
+    textoApoio = `Apoio da Mecânica${nomeMecanica ? `: ${nomeMecanica}` : ''} e da Civil${nomeCivil ? `: ${nomeCivil}` : ''}`;
+  } else if (apoioMecanica) {
+    textoApoio = `Apoio da Mecânica${nomeMecanica ? `: ${nomeMecanica}` : ''}`;
+  } else if (apoioCivil) {
+    textoApoio = `Apoio da Civil${nomeCivil ? `: ${nomeCivil}` : ''}`;
+  }
+  
+  // Dados enviados para planilha — SEPARADOS
+  const dadosParaPlanilha = {
+    quem: quem,
+    descricao: desc,
+    local: local,
+    data: dataFormatada,
+    apoio: textoApoio,
+    nomeMecanica: nomeMecanica || '-',
+    nomeCivil: nomeCivil || '-',
+    participantes: participantesEquipe.join(', ')
+  };
+
+  await salvarNaPlanilha(dadosParaPlanilha);
+
+  const mensagem = `REGISTRO DE ATIVIDADE
+Força Sul Consórcio
+Grupo: RDO Elétrica CFS
+
+Enviado por: ${quem}
+Atividade: ${desc}
+Local: ${local}
+Data: ${dataFormatada}
+Apoio: ${textoApoio}
+Participantes da Equipe: ${participantesEquipe.join(', ')}`;
+
+  document.getElementById('conteudo').innerText = mensagem;
+  document.getElementById('areaMsg').style.display = 'block';
+  document.getElementById('avisoGrupo').style.display = 'block';
+  document.getElementById('btnEnviar').style.display = 'block';
+  document.getElementById('btnNovo').style.display = 'block';
+  document.getElementById('btnEnviar').scrollIntoView({behavior:'smooth'});
+}
+
+function enviar(){
+  const texto = document.getElementById('conteudo').innerText;
+  window.open(`https://wa.me/?text=${encodeURIComponent(texto)}`, '_blank');
+}
+
+function novoLancamento(){
+  document.getElementById('quemEnvia').value = '';
+  document.getElementById('desc').value = '';
+  document.getElementById('local').value = '';
+  document.getElementById('data').valueAsDate = new Date();
+  document.getElementById('apoioMecanica').checked = false;
+  document.getElementById('apoioCivil').checked = false;
+  document.getElementById('nomeMecanica').value = '';
+  document.getElementById('nomeCivil').value = '';
+  
+  // Esconde campos de nome do apoio
+  document.getElementById('nomeMecanicaArea').style.display = 'none';
+  document.getElementById('nomeCivilArea').style.display = 'none';
+  
+  // Desmarca todos da equipe
+  document.querySelectorAll('.chk-equipe').forEach(c => c.checked = false);
+  
+  document.getElementById('sucessoPlanilha').style.display = 'none';
+  document.getElementById('areaMsg').style.display = 'none';
+  document.getElementById('avisoGrupo').style.display = 'none';
+  document.getElementById('btnEnviar').style.display = 'none';
+  document.getElementById('btnNovo').style.display = 'none';
+  
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+</script>
+
+</body>
+</html>
