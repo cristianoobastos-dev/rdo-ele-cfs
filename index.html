@@ -52,9 +52,6 @@ img.onerror = function() {
   this.style.display = 'none';
   document.getElementById('textoFallback').style.display = 'block';
 };
-img.onload = function() {
-  document.getElementById('textoFallback').style.display = 'none';
-};
 </script>
 
 <h1>Registro de Atividades - RDO Elétrica</h1>
@@ -98,19 +95,17 @@ Preencha e envie para o Grupo RDO Elétrica CFS. O histórico fica salvo automat
   <button class="btn-azul" onclick="desmarcarTudo()">Desmarcar Todos</button>
   
   <div class="adicionar-area">
-    <label style="margin-top:0;">Adicionar novo colaborador da equipe:</label>
+    <label style="margin-top:0;">Adicionar novo colaborador:</label>
     <input type="text" id="novoColaborador" placeholder="Digite o nome">
     <button class="btn-laranja" onclick="adicionarColaborador()">Adicionar à Lista</button>
   </div>
   
-  <div class="nomes" id="listaNomes">
-    <!-- Nomes da equipe em ordem alfabética -->
-  </div>
+  <div class="nomes" id="listaNomes"></div>
 
   <button class="btn-verde" onclick="montar()">Montar e Salvar</button>
 
   <div id="sucessoPlanilha" class="sucesso-planilha">
-    ✅ Atividade registrada no histórico com sucesso.
+    ✅ Salvo na planilha com sucesso!
   </div>
 
   <div id="areaMsg" class="texto-envio">
@@ -119,7 +114,7 @@ Preencha e envie para o Grupo RDO Elétrica CFS. O histórico fica salvo automat
   </div>
 
   <div id="avisoGrupo" class="aviso-grupo">
-    Na tela que abrir, selecione: RDO ELÉTRICA CFS
+    Selecione no WhatsApp: RDO ELÉTRICA CFS
   </div>
 
   <button id="btnEnviar" class="btn-whats" style="display:none;" onclick="enviar()">Enviar para o Grupo</button>
@@ -131,8 +126,8 @@ Preencha e envie para o Grupo RDO Elétrica CFS. O histórico fica salvo automat
 </div>
 
 <script>
-// ⚠️ ATENÇÃO: Cole aqui o NOVO link do Apps Script depois de reimplantar!
-const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbw3V_zuEdWCjJ8yalzQU-brPoeo2Qe_j9DQrXY4klM6mfRUWAQri89hLdtJ-iSt408RsQ/exec";
+// ✅ LINK JÁ INSERIDO
+const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzSRSrHHPEciCGa0cT20wcyAMLhY6HnbZ2YMew__RfdKB7IoTK5EQtqlPElhkZMTzZrYw/exec";
 
 let colaboradores = [
   "Arlan", "Chrystian", "Cleber", "Cristiano", "Elias", "Herberson",
@@ -163,7 +158,7 @@ function adicionarColaborador() {
   const input = document.getElementById('novoColaborador');
   const nome = input.value.trim();
   if (!nome) { alert('Digite um nome!'); return; }
-  if (colaboradores.includes(nome)) { alert('Nome já está na lista!'); input.value=''; return; }
+  if (colaboradores.includes(nome)) { alert('Já existe!'); input.value=''; return; }
   colaboradores.push(nome);
   carregarListaNomes();
   input.value = '';
@@ -195,8 +190,7 @@ async function salvarNaPlanilha(dados){
     });
     document.getElementById('sucessoPlanilha').style.display = 'block';
   } catch (erro) {
-    console.log('Erro ao salvar:', erro);
-    alert('Erro ao salvar: ' + erro.message);
+    alert('Erro: ' + erro.message);
   }
 }
 
@@ -209,19 +203,16 @@ async function montar(){
   const apoioCiv = document.getElementById('apoioCivil').checked;
   const nomeMec = document.getElementById('nomeMecanica').value.trim();
   const nomeCiv = document.getElementById('nomeCivil').value.trim();
-  
-  // PEGA SOMENTE OS MARCADOS DA EQUIPE — classe separada!
   const participantesEquipe = Array.from(document.querySelectorAll('.chk-equipe:checked')).map(c => c.value);
 
   if(!quem){ alert('Digite seu nome!'); return; }
   if(!desc){ alert('Descreva a atividade!'); return; }
   if(!local){ alert('Digite o local!'); return; }
   if(!data){ alert('Selecione a data!'); return; }
-  if(participantesEquipe.length === 0){ alert('Selecione pelo menos um participante da equipe!'); return; }
+  if(participantesEquipe.length === 0){ alert('Selecione pelo menos um participante!'); return; }
 
   const dataFormatada = formatarData(data);
   
-  // CAMPO APOIO — SÓ OS DADOS DE APOIO
   let textoApoio = 'Não houve apoio de outras áreas';
   if (apoioMec && apoioCiv) {
     textoApoio = 'Apoio da Mecânica' + (nomeMec ? ': ' + nomeMec : '') + 
@@ -232,7 +223,6 @@ async function montar(){
     textoApoio = 'Apoio da Civil' + (nomeCiv ? ': ' + nomeCiv : '');
   }
 
-  // DADOS 100% SEPARADOS — GARANTIDO
   const dadosParaPlanilha = {
     quem: quem,
     descricao: desc,
@@ -241,10 +231,9 @@ async function montar(){
     apoio: textoApoio,
     nomeMecanica: nomeMec || '-',
     nomeCivil: nomeCiv || '-',
-    participantes: participantesEquipe.join(', ') // SÓ A EQUIPE!
+    participantes: participantesEquipe.join(', ')
   };
 
-  console.log('Enviando:', dadosParaPlanilha);
   await salvarNaPlanilha(dadosParaPlanilha);
 
   const mensagem = `REGISTRO DE ATIVIDADE
@@ -256,14 +245,13 @@ Atividade: ${desc}
 Local: ${local}
 Data: ${dataFormatada}
 Apoio: ${textoApoio}
-Participantes da Equipe: ${participantesEquipe.join(', ')}`;
+Participantes: ${participantesEquipe.join(', ')}`;
 
   document.getElementById('conteudo').innerText = mensagem;
   document.getElementById('areaMsg').style.display = 'block';
   document.getElementById('avisoGrupo').style.display = 'block';
   document.getElementById('btnEnviar').style.display = 'block';
   document.getElementById('btnNovo').style.display = 'block';
-  document.getElementById('btnEnviar').scrollIntoView({behavior:'smooth'});
 }
 
 function enviar(){
