@@ -6,7 +6,7 @@
 <title>Registro de Atividades - RDO Elétrica CFS</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
-body{background:#eaf2fa;padding:15px;max-width:520px;margin:0 auto;padding-bottom:60px;}
+body{background:#eaf2fa;padding:15px;max-width:520px;margin:0 auto;padding-bottom:80px;}
 .logo-container{text-align:center;margin-bottom:15px;padding:15px 10px;background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,85,184,0.1);min-height:180px;display:flex;align-items:center;justify-content:center;}
 .logo-img{max-width:220px;width:100%;height:auto;}
 .logo-texto{font-size:24px;font-weight:bold;color:#0055b8;padding:20px 10px;text-align:center;}
@@ -30,11 +30,13 @@ button:hover{opacity:0.92;}
 .btn-whats{background:#25d366;color:white;width:100%;margin-top:10px;box-shadow:0 3px 6px rgba(37,211,102,0.25);display:none;}
 .btn-azul{background:#0077ed;color:white;margin:5px 5px 5px 0;width:auto;padding:10px 14px;font-size:14px;}
 .btn-laranja{background:#ff9800;color:white;margin:5px 0;padding:10px 14px;font-size:14px;}
-.texto-envio{background:#f0f6fc;border:2px solid #0055b8;padding:15px;border-radius:8px;margin-top:15px;white-space:pre-wrap;font-size:14px;display:none;color:#003366;}
+.texto-envio{background:#f0f6fc;border:2px solid #0055b8;padding:15px;border-radius:8px;margin-top:15px;white-space:pre-wrap;font-size:14px;display:block;color:#003366;}
 .sucesso-planilha{background:#e8f5e9;border-left:4px solid #2e7d32;padding:10px;margin-top:10px;border-radius:0 8px 8px 0;font-size:14px;color:#1b5e20;display:none;}
-.aviso-grupo{background:#fff8e1;border-left:4px solid #ff9800;padding:10px;margin-top:10px;border-radius:0 8px 8px 0;font-size:14px;color:#e65100;display:none;}
+.aviso-grupo{background:#fff8e1;border-left:4px solid #ff9800;padding:12px;margin-top:10px;border-radius:0 8px 8px 0;font-size:14px;color:#e65100;display:block;}
+.aviso-copiar{background:#e3f2fd;border-left:4px solid #0288d1;padding:12px;margin-top:10px;border-radius:0 8px 8px 0;font-size:14px;color:#01579b;display:block;}
 .rodape{text-align:center;padding:15px;margin-top:20px;font-size:13px;color:#666;border-top:1px solid #ddd;position:fixed;bottom:0;left:0;right:0;background:#fff;padding:10px;box-shadow:0 -2px 5px rgba(0,0,0,0.05);}
 .rodape strong{color:#0055b8;}
+.btn-copiar{background:#0077ed;color:white;width:100%;margin-top:10px;}
 </style>
 </head>
 <body>
@@ -75,9 +77,17 @@ img.onerror=function(){this.style.display='none';document.getElementById('textoF
 <div class="nomes" id="listaNomes"></div>
 <button class="btn-verde" onclick="montar()">Montar e Salvar</button>
 <div id="sucessoPlanilha" class="sucesso-planilha">Salvo na planilha com sucesso!</div>
-<div id="areaMsg" class="texto-envio"><strong>Mensagem pronta:</strong><br><br><span id="conteudo"></span></div>
-<div id="avisoGrupo" class="aviso-grupo">A mensagem abrirá no WhatsApp — selecione o grupo RDO Elétrica CFS</div>
-<button id="btnEnviar" class="btn-whats" onclick="enviar()">Enviar para o Grupo</button>
+<div id="areaMsg" class="texto-envio" style="display:none;">
+<strong>Mensagem pronta:</strong><br><br>
+<span id="conteudo"></span>
+<button id="btnCopiar" class="btn-copiar" onclick="copiarTexto()">📋 Copiar Mensagem</button>
+</div>
+<div id="avisoCopiar" class="aviso-copiar" style="display:none;">
+✅ Mensagem copiada! Abra o grupo e cole (Ctrl+V)
+</div>
+<div id="avisoGrupo" class="aviso-grupo" style="display:none;">
+👉 Link do grupo: <a href="https://chat.whatsapp.com/E0NTlX2jqwa6BAOnYFiWFi" target="_blank" style="color:#0055b8;font-weight:bold;">Abrir Grupo RDO Elétrica CFS</a>
+</div>
 <button id="btnNovo" class="btn-verde" style="background:#ff9800;display:none;" onclick="novoLancamento()">Novo Lançamento</button>
 </div>
 <div class="rodape">Desenvolvido por <strong>Cristiano Bastos</strong></div>
@@ -153,12 +163,23 @@ const mensagem='REGISTRO DE ATIVIDADE\nForça Sul Consórcio\nGrupo: RDO Elétri
 document.getElementById('conteudo').innerText=mensagem;
 document.getElementById('areaMsg').style.display='block';
 document.getElementById('avisoGrupo').style.display='block';
-document.getElementById('btnEnviar').style.display='block';
 document.getElementById('btnNovo').style.display='block';
 }
-function enviar(){
+function copiarTexto(){
 const texto=document.getElementById('conteudo').innerText;
-window.open('https://wa.me/?text='+encodeURIComponent(texto),'_blank');
+navigator.clipboard.writeText(texto).then(()=>{
+document.getElementById('avisoCopiar').style.display='block';
+setTimeout(()=>{document.getElementById('avisoCopiar').style.display='none';},3000);
+}).catch(()=>{
+const textArea=document.createElement('textarea');
+textArea.value=texto;
+document.body.appendChild(textArea);
+textArea.select();
+document.execCommand('copy');
+document.body.removeChild(textArea);
+document.getElementById('avisoCopiar').style.display='block';
+setTimeout(()=>{document.getElementById('avisoCopiar').style.display='none';},3000);
+});
 }
 function novoLancamento(){
 document.getElementById('quemEnvia').value='';
@@ -175,7 +196,7 @@ document.querySelectorAll('.chk-equipe').forEach(c=>c.checked=false);
 document.getElementById('sucessoPlanilha').style.display='none';
 document.getElementById('areaMsg').style.display='none';
 document.getElementById('avisoGrupo').style.display='none';
-document.getElementById('btnEnviar').style.display='none';
+document.getElementById('avisoCopiar').style.display='none';
 document.getElementById('btnNovo').style.display='none';
 window.scrollTo({top:0,behavior:'smooth'});
 }
